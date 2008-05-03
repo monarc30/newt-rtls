@@ -61,12 +61,14 @@ class Tag {
 	 * @return Tag
 	 */
 	public function Tag(DOMElement $data = NULL) {
-		foreach ($data->childNodes as $item) {
-			$this->{$item->nodeName} = $item->nodeValue;
+		if($data) {
+			foreach ($data->childNodes as $item) {
+				$this->{$item->nodeName} = $item->nodeValue;
+			}
 		}
 	}
 	
-	public function setId(int $value) {
+	public function setId($value) {
 		$this->id = $value;
 	}
 	
@@ -74,7 +76,7 @@ class Tag {
 		return $this->id;
 	}
 	
-	public function setTagId(int $value) {
+	public function setTagId($value) {
 		$this->tagid = $value;
 	}
 	
@@ -82,7 +84,7 @@ class Tag {
 		return $this->tagid;
 	}
 	
-	public function setMAC(string $value) {
+	public function setMAC($value) {
 		$this->mac = $value;
 	}
 	

@@ -16,12 +16,8 @@ require_once "Tag.class.php";
 class Tracker {
 	private $connector;
 	
-	public function Tracker() {
-		$this->connector = new DataConnector(
-			"192.168.1.10",
-			"8550",
-			"rtls_user",
-			"welcome");
+	public function Tracker($server, $port, $username, $password) {
+		$this->connector = new DataConnector($server, $port, $username, $password);
 	}
 	
 	/**
@@ -31,8 +27,6 @@ class Tracker {
 	public function listTags() {
 		try {
 			$listOfTags;
-			
-			$myCon = new DataConnector("192.168.1.10", "8550", "rtls_user", "welcome");
 			
 			$xmlRequest = new DOMDocument("1.0", "utf-8");
 			$xmlRequest->formatOutput = true;
@@ -44,7 +38,7 @@ class Tracker {
 			$params = $request->appendChild($params);
 			$params->appendChild($xmlRequest->createElement("fields", "all"));
 			
-			$xmlListOfTags = $myCon->request($xmlRequest, "epe/pos/taglist");
+			$xmlListOfTags = $this->connector->request($xmlRequest, "epe/pos/taglist");
 			
 			if($tags = $xmlListOfTags->getElementsByTagName("TAG")) {
 				foreach($tags as $item) {
@@ -53,6 +47,8 @@ class Tracker {
 			}
 			
 			return $listOfTags;
+		} catch (CannotConnectException $e) {
+			echo $e->getMessage();
 		} catch (BadRequestException $e) {
 			echo $e->getMessage();
 		} catch (Exception $e) {

@@ -20,6 +20,15 @@ class DataConnector {
 	private $username;
 	private $password;
 	
+	/**
+	 * Default Constructor
+	 * @param string $hostname
+	 * @param string $port
+	 * @param string $username
+	 * @param string $password
+	 * @param boolean $ssl
+	 * @return DataConnector
+	 */
 	public function DataConnector($hostname, $port = NULL, $username = NULL, $password = NULL, $ssl = false) {
 		$this->hostname = $hostname;
 		$this->port = $port;
@@ -42,7 +51,7 @@ class DataConnector {
 		$out .= "Connection: Close\r\n\r\n";
 		
 	    if(!$conn = fsockopen($this->hostname, $this->port, $errno, $errstr, 10)) {
-    		throw new CannotConnectException("Error Connecting to the server!");
+    		throw new CannotConnectException("Error Connecting to the Ekahau server!");
     	}
 		fwrite($conn, $out);
 		
@@ -82,7 +91,7 @@ class DataConnector {
     	$out .= $parameters . "\r\n\r\n";
     	
     	if(!$conn = fsockopen($this->hostname, $this->port, $errno, $errstr, 10)) {
-    		return false;
+    		throw new CannotConnectException("Error Connecting to the Ekahau server!");
     	}
     	
     	fwrite($conn, $out);
@@ -97,7 +106,7 @@ class DataConnector {
 			return $xmlResponse;
 		} else {
 			$httpErrCode = substr($buffer, strpos($buffer, "HTTP/1.1 ")+9, 3);
-			throw new BadRequestException("Bad request format!", $httpErrCode);
+			throw new BadRequestException("Bad request format! HTTP Error Code: " . $httpErrCode);
 		}
 	}
 }
