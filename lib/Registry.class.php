@@ -38,12 +38,19 @@ class Registry {
 		
 	}
 	
+	/**
+	 * Assigns a registered tag to a person.
+	 * @param int $person
+	 * @param string $tagid
+	 * @return boolean
+	 * @throws BadDatabaseQueryException
+	 */
 	public function assignTag($person, $tagid, $mac) {
 		$strSQL = "INSERT INTO tag (tagid, mac, person_id) VALUES ('$tagid', '$mac', $person)";
 		if(!$result = $this->dbh->query($strSQL)) {
 			throw new BadDatabaseQueryException("Bad database query!");
 		} else {
-			return $result; 
+			return $result;	
 		}
 	}
 	
@@ -73,6 +80,13 @@ class Registry {
 		return $listOfPeople;
 	}
 	
+	/**
+	 * Method for returning list of assigned tags or assigned to the
+	 * specific person by ID.
+	 * @param int $personId
+	 * @return Tag[] Array of Tag objects
+	 * @throws BadDatabaseQueryException
+	 */
 	public function listAssignedTags($personId = NULL) {
 		$listOfAssignedTags;
 		
