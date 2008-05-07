@@ -54,8 +54,24 @@ class Registry {
 		}
 	}
 	
-	public function unassignTag() {
+	/**
+	 * Method to unassign a tag assigned to a person.
+	 * @param int $assignedId This is is stored in the database
+	 * when tag is assigned to a person.
+	 * @return boolean
+	 * @throws BadDatabaseQueryException
+	 */
+	public function unassignTag($assignedId) {
+		if(is_array($assignedId)) {
+			$assignedId = implode(",", $assignedId);
+		}
+		$strSQL = "DELETE FROM tag WHERE tag.id IN (" . $assignedId . ")";
 		
+		if(!$result = $this->dbh->query($strSQL)) {
+			throw new BadDatabaseQueryException("Bad database query!");
+		} else {
+			return $result;
+		}
 	}
 	
 	/**

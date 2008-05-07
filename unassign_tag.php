@@ -4,7 +4,7 @@ require_once "lib/Registry.class.php";
 try {
 	$registry = new Registry("localhost", "rtls_user", "welcome", "rtls");
 	
-	$registry->assignTag($_POST["person_id"], $_POST["tagid"], $_POST["mac"]);
+	$registry->unassignTag($_POST["tag_id"]);
 } catch (CannotConnectException $e) {
 	echo $e->getMessage();
 } catch (BadDatabaseQueryException $e) {
@@ -13,5 +13,5 @@ try {
 	echo $e->getMessage();
 }
 
-header("location: /?person_id=".$_POST["person_id"]);
+header("location: /?person_id=".$_POST["people"]);
 ?>
