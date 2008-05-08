@@ -55,6 +55,39 @@ class Tracker {
 			echo $e->getMessage();
 		}
 	}
+	
+	/**
+	 * This method displays a tag on the map
+	 * @param string $tagid
+	 * @return binary Map in a binary format
+	 */
+	public function mapTag($tagid, $mapWidth=NULL, $mapHeight=NULL) {
+		try {
+			$xmlRequest = new DOMDocument("1.0", "utf-8");
+			$xmlRequest->formatOutput = true;
+			
+			$request = $xmlRequest->createElement("request");
+			$request = $xmlRequest->appendChild($request); 
+			
+			$params = $xmlRequest->createElement("PARAMS");
+			$params = $request->appendChild($params);
+			$params->appendChild($xmlRequest->createElement("tagid", $tagid));
+			if($mapWidth) {
+				$params->appendChild($xmlRequest->createElement("width", $mapWidth));
+			}
+			if($mapHeight) {
+				$params->appendChild($xmlRequest->createElement("height", $mapHeight));
+			}
+			
+			return $this->connector->request($xmlRequest, "epe/map/render");
+		} catch (CannotConnectException $e) {
+			echo $e->getMessage();
+		} catch (BadRequestException $e) {
+			echo $e->getMessage();
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
 }
 
 ?>
