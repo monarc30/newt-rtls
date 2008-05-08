@@ -525,7 +525,7 @@ function stopRefreshMap() {
 	</tr>
 	<tr>
 		<td class="tbl_footer" align="right">
-			<input type="button" value="Cancel" onClick="closeWindow(wndMapTag);stopRefreshMap();">
+			<input type="button" value="Close" onClick="closeWindow(wndMapTag);stopRefreshMap();">
 		</td>
 	</tr>
 </table>
