@@ -101,9 +101,13 @@ class DataConnector {
 		fclose($conn);
 		
 		if(substr($buffer, strpos($buffer, "HTTP/1.1 ")+9, 3) == "200") {
-			$xmlResponse = new DOMDocument("1.0", "utf-8");
-			$xmlResponse->loadXML(substr($buffer, strpos($buffer, "<?xml")));
-			return $xmlResponse;
+			if(strpos($buffer, "<?xml")) {
+				$xmlResponse = new DOMDocument("1.0", "utf-8");
+				$xmlResponse->loadXML(substr($buffer, strpos($buffer, "<?xml")));
+				return $xmlResponse;
+			} else {
+				return substr($buffer, strpos($buffer, "Connection: close\r\n\r\n")+21);
+			}
 		} else {
 			$httpErrCode = substr($buffer, strpos($buffer, "HTTP/1.1 ")+9, 3);
 			throw new BadRequestException("Bad request format! HTTP Error Code: " . $httpErrCode);

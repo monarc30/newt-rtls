@@ -57,11 +57,10 @@ function showAssignTagWindow() {
 	}
 	
 	wnd = document.getElementById("wndAssignTag");
-	alert(wnd.style.top);
-	wnd.style.left = (window.innerWidth-wnd.scrollWidth)/2;
-	wnd.style.top = (window.innerHeight-wnd.scrollHeight)/2;
-	wnd.style.zIndex = 100;
 	wnd.style.display = '';
+	wnd.style.zIndex = 100;
+	wnd.style.left = (document.body.clientWidth-wnd.offsetWidth)/2;
+	wnd.style.top = (document.body.clientHeight-wnd.offsetHeight)/2;
 	
 	dropShadows(wnd, 5);
 }
@@ -77,7 +76,7 @@ function expandTagDetails(panel, label) {
 		panel.style.display = '';
 	} else {
 		panel.style.display = 'none';
-		label.innerHTML = "show &#187;";
+		label.innerHTML = "details &#187;";
 	}
 }
 
@@ -122,11 +121,12 @@ function byte2Hex(n) {
 }
 
 function displayAssignedTagsList(personId) {
-	var myPanels = document.getElementsByName("assignedTagsList");
-	alert(myPanels.length);
+	var myPanels = document.getElementsByTagName("tr");
+	
 	for(i=0; i<myPanels.length; i++) {
-		alert(myPanels[i].id);
-		myPanels[i].style.display = 'none';
+		if(myPanels[i].getAttribute("name") == 'assignedTagsList') {
+			myPanels[i].style.display = 'none';
+		}
 	}
 	var tagInfoRow = document.getElementById("tagInfoFor_"+personId);
 	tagInfoRow.style.display = '';
@@ -139,6 +139,34 @@ function unassignTag() {
 				frmPeople.submit();
 			}
 		}
+	}
+}
+
+function mapTag(tagid, mac) {
+	wndMapTagTitle.innerHTML = tagid + ' [' + mac + ' ]';
+	mapImg.style.visibility = 'hidden';
+	mapImg.src = 'map_tag.php?tagid='+tagid+'&width=400&height=250';
+	wnd = document.getElementById("wndMapTag");
+	wnd.style.display = '';
+	wnd.style.zIndex = 100;
+	wnd.style.left = (document.body.clientWidth-wnd.offsetWidth)/2;
+	wnd.style.top = (document.body.clientHeight-wnd.offsetHeight)/2;
+	
+	dropShadows(wnd, 5);
+	
+	refreshMap(tagid);
+}
+
+function refreshMap(tagid) {
+	mapImg.src = '';
+	mapImg.src = 'map_tag.php?tagid='+tagid+'&width=400&height=250&'+Math.random();
+	timerID = setTimeout('refreshMap('+tagid+')', 5000);
+}
+
+function stopRefreshMap() {
+	if(timerID) {
+		clearTimeout(timerID);
+		timerID  = 0;
 	}
 }
 
@@ -224,8 +252,9 @@ function unassignTag() {
 					<td class="tbl_cell">
 						<table width="100%" border="0">
 							<tr ondblclick="expandTagDetails(tagDetails_<?php echo $person->getId(); ?>_<?php echo $item->getTagId(); ?>)">
-								<td class="tbl_cell"><?php echo $item->getTagId() . " [ " . $item->getMAC() . " ]"; ?></td>
-								<td class="tbl_cell" align="right"><a href="#" onclick="expandTagDetails(tagDetails_<?php echo $person->getId(); ?>_<?php echo $item->getTagId(); ?>, this)">show &#187;</a></td>
+								<td width="35%" class="tbl_cell"><?php echo $item->getTagId() . " [ " . $item->getMAC() . " ]"; ?></td>
+								<td class="tbl_cell"><a href="#" onClick="mapTag('<?php echo $item->getTagId(); ?>', '<?php echo $item->getMAC(); ?>')">map it</a></td>
+								<td class="tbl_cell" align="right"><a href="#" onclick="expandTagDetails(tagDetails_<?php echo $person->getId(); ?>_<?php echo $item->getTagId(); ?>, this)">details &#187;</a></td>
 							</tr>
 						</table>
 						<div id="tagDetails_<?php echo $person->getId(); ?>_<?php echo $item->getTagId(); ?>" style="display: none;">
@@ -481,6 +510,26 @@ function unassignTag() {
 </table>
 </td></tr></table>
 </form>
+
+
+<table bgcolor="#007ec7" cellspacing="1" cellpadding="2" id="wndMapTag" style="display: none; position: absolute;">
+<tr><td bgcolor="#80bbe8">
+<table width="100%" bgcolor="#007ec7" cellspacing="1" cellpadding="5">
+	<tr>
+		<td class="tbl_header">Map Tag - <span id="wndMapTagTitle"></span></td>
+	</tr>
+	<tr>
+		<td class="tbl_cell">
+			<img id="mapImg" style="border: 1 solid #80bbe8; width: 400px; height: 250px;" onload="this.style.visibility='visible';">
+		</td>
+	</tr>
+	<tr>
+		<td class="tbl_footer" align="right">
+			<input type="button" value="Cancel" onClick="closeWindow(wndMapTag);stopRefreshMap();">
+		</td>
+	</tr>
+</table>
+</td></tr></table>
 
 </body>
 </html>
