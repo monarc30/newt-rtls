@@ -113,6 +113,106 @@ class DataConnector {
 			throw new BadRequestException("Bad request format! HTTP Error Code: " . $httpErrCode);
 		}
 	}
+	
+	public function listen(DOMDocument $parameters = NULL, $path = NULL) {
+		set_time_limit(0);
+		
+		$out = "POST /" . $path . " HTTP/1.1\r\n";
+		$out .= "Host: " . $this->hostname . "\r\n";
+		$out .= "Connection: Close\r\n\r\n";
+		
+	    if(!$conn = fsockopen($this->hostname, $this->port, $errno, $errstr, 10)) {
+    		throw new CannotConnectException("Error Connecting to the Ekahau server!");
+    	}
+		fwrite($conn, $out);
+		
+		$buffer = stream_get_contents($conn);
+		
+		fclose($conn);
+		
+		$p1 = strpos($buffer, "WWW-Authenticate: Digest ");
+		$p2 = strpos($buffer, "\r\n", $p1);
+		$auth_params  = explode(", ",substr($buffer, $p1+25, $p2-($p1+25)));
+		foreach($auth_params as $item) {
+			eval("\$" . $item . ";");
+		}
+		
+		$ha1 = md5($this->username.":".$realm.":".$this->password);
+		$ha2 = md5("POST:/" . $path);
+		$cnonce = "smthere";
+    	$response = md5($ha1.':'.$nonce.':00000001:'.$cnonce.':auth:'.$ha2);
+    	$parameters = $parameters->saveXML();
+    	
+		$out = "POST /" . $path . " HTTP/1.1\r\n";
+		$out .= "Host: " . $this->hostname . "\r\n";
+		$out .= "Content-type: text/xml;charset=utf-8\r\n";
+		$out .= "Content-length: " . strlen($parameters) . "\r\n";
+		$out .= "Accept: text/xml\r\n";
+		$out .= "Connection: Close\r\n";
+    	$out .= "Authorization: Digest username=\"" . $this->username .  "\", ";
+    	$out .= "realm=\"" . $realm . "\", ";
+    	$out .= "nonce=\"" . $nonce . "\", ";
+    	$out .= "uri=\"/" . $path . "\", ";
+    	$out .= "qop=\"" . $qop . "\", ";
+    	$out .= "algorithm=\"MD5\", ";
+    	$out .= "nc=00000001, ";
+    	$out .= "cnonce=\"" . $cnonce . "\", ";
+    	$out .= "response=\"" . $response . "\", ";
+    	$out .= "opaque=\"" . $opaque . "\"\r\n\r\n";
+    	$out .= $parameters . "\r\n\r\n";
+		
+    	
+    	if(!$conn = fsockopen($this->hostname, $this->port, $errno, $errstr, 10)) {
+    		throw new CannotConnectException("Error Connecting to the Ekahau server!");
+    	}
+    	fwrite($conn, $out);
+    	
+    	//$xmlResponse = new DOMDocument("1.0", "utf-8");
+    	$mysock = socket_create(AF_INET, SOCK_STREAM, 0);
+    	socket_bind($mysock, "127.0.0.1", 10000);
+    	socket_listen($mysock);
+    	//socket_accept($mysock);
+    	
+    	
+    	while($commSock = socket_accept($mysock)) {
+			while(!feof($conn)) {
+	    		$line = fgets($conn);
+		    	echo $line;
+		    	$buffer .= $line;
+		    	if($eventRecord = $this->processEventStream($buffer)) {
+		    		//$xmlResponse->appendChild($eventRecord);
+		    		//if() {
+		    			if(!socket_write($commSock, $eventRecord)) {
+		    				break;
+		    			}
+		    		//}
+		    	}
+			}
+    	}
+		socket_close($commSock);
+		socket_close($mysock);
+		fclose($conn);
+	}
+	
+	private function processEventStream(&$buffer) {
+		//$fh = fopen("log.txt", "a");
+		$from = strpos($buffer, "<response>");
+		$to = strpos($buffer, "</response>", $from);
+		if($to) {
+			$strEvent = substr($buffer, $from+10, $to-($from+10));
+			$buffer = null;
+			if(!strpos($strEvent, "<QUERYALIVE>")) {
+				return trim($strEvent);
+				//fwrite($fh, $strEvent);
+				//$eventReader = new XMLReader();
+				//if($eventReader->XML($strEvent)) {
+				//	return $eventReader->expand();
+				//}
+		 	}
+		}
+		return false;
+		//fclose($fh);
+	}
 }
 
 ?>
