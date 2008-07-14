@@ -1,6 +1,6 @@
 <?php
-require_once "lib/Tracker.class.php";
-require_once "lib/Registry.class.php";
+require_once "../lib/Tracker.class.php";
+require_once "../lib/Registry.class.php";
 
 $tracker = new Tracker("192.168.1.10", "8550", "rtls_user", "welcome");
 $tags = $tracker->listTags();
@@ -143,7 +143,7 @@ function unassignTag() {
 }
 
 function mapTag(tagid, mac) {
-	wndMapTagTitle.innerHTML = tagid + ' [' + mac + ' ]';
+	wndMapTagTitle.innerHTML = tagid + ' [ ' + mac + ' ]';
 	mapImg.style.visibility = 'hidden';
 	mapImg.src = 'map_tag.php?tagid='+tagid+'&width=400&height=250';
 	wnd = document.getElementById("wndMapTag");
@@ -174,16 +174,6 @@ function stopRefreshMap() {
 </head>
 <body onLoad="displayAssignedTagsList(document.frmPeople.people.value)">
 
-<!-- 
-<table width="100%">
-	<tr>
-		<td>List of People</td>
-		<td>List of Tags</td>
-		<td>
-	</tr>
-</table>
--->
-
 <center>
 <table width="790" bgcolor="#FFFFFF" cellspacing="0" cellpadding="5">
 	<tr>
@@ -195,6 +185,7 @@ function stopRefreshMap() {
 	<tr>
 		<td class="tbl_header">
 			People
+			<a href="/events">Events</a>
 		</td>
 	</tr>
 	<tr>
