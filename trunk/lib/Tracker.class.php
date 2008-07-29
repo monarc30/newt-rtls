@@ -62,6 +62,8 @@ class Tracker {
 	/**
 	 * This method displays a tag on the map
 	 * @param string $tagid
+	 * @param integer $mapWidth
+	 * @param integer $mapHeight
 	 * @return binary Map in a binary format
 	 */
 	public function mapTag($tagid, $mapWidth=NULL, $mapHeight=NULL) {
