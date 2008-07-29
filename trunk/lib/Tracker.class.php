@@ -12,7 +12,9 @@ require_once "Tag.class.php";
 require_once "Event.class.php";
 
 /**
- * Tracker keeps track of the tags registered in the system
+ * Tracker keeps track of the tags and events registered in the system.
+ * It can also render a map showing the current position of a given tag
+ * on the floor map.
  */
 class Tracker {
 	private $connector;
@@ -90,6 +92,13 @@ class Tracker {
 		}
 	}
 	
+	/**
+	 * This method returns the latest events registered in the system. You can
+	 * specify how many events you want to get using second parameter $numofevents
+	 * @param integer $ruleid Get events triggered bu rule with this RuleID
+	 * @param integer $numofevents Number of events to pull from the system
+	 * @return Event[] Array of Event objects
+	 */
 	public function getEvents($ruleid=null, $numofevents=1) {
 		try {
 			$xmlRequest = new DOMDocument("1.0", "utf-8");
