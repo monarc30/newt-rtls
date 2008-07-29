@@ -11,7 +11,7 @@ require_once "BadRequestException.class.php";
 require_once "CannotConnectException.class.php";
 
 /**
- * Use DataConnector class to request an XML stream from web
+ * Use DataConnector class to request an XML stream from the web
  * service.
  */
 class DataConnector {
@@ -114,6 +114,15 @@ class DataConnector {
 		}
 	}
 	
+	/**
+	 * This method acts as a XML stream server bound to a socket listening
+	 * for live event stream.
+	 * @param DOMDocument $parameters Request parameters in XML format
+	 * @param String $path Path to the necessary WebService on the server. Do not prepend path with "/"
+	 * @return void
+	 * @throws BadRequestException
+	 * @throws CannotConnectException
+	 */
 	public function listen(DOMDocument $parameters = NULL, $path = NULL) {
 		set_time_limit(0);
 		
@@ -180,12 +189,9 @@ class DataConnector {
 		    	echo $line;
 		    	$buffer .= $line;
 		    	if($eventRecord = $this->processEventStream($buffer)) {
-		    		//$xmlResponse->appendChild($eventRecord);
-		    		//if() {
 		    			if(!socket_write($commSock, $eventRecord)) {
 		    				break;
 		    			}
-		    		//}
 		    	}
 			}
     	}
@@ -194,6 +200,12 @@ class DataConnector {
 		fclose($conn);
 	}
 	
+	/**
+	 * This is a private method for processing XML stream buffer and extracting
+	 * event records from it.
+	 * @param String $buffer XML data buffer
+	 * @return String
+	 */
 	private function processEventStream(&$buffer) {
 		//$fh = fopen("log.txt", "a");
 		$from = strpos($buffer, "<response>");
@@ -211,7 +223,6 @@ class DataConnector {
 		 	}
 		}
 		return false;
-		//fclose($fh);
 	}
 }
 

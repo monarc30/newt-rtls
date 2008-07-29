@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of NEWT-RTLS lib package contains Register class.
+ * Part of NEWT-RTLS lib package contains Registry class.
  * @author Polad Mirzayev <polad.mirzayev@newt.trlabs.ca>
  * @version 1.0
  * @copyright (c) Copyright NEWT 2008
@@ -13,8 +13,8 @@ require_once "CannotConnectException.class.php";
 require_once "BadDatabaseQueryException.class.php";
 
 /**
- * Register class registers tags in the database and assigns
- * them to people. It also deregisters tags from the database. 
+ * Registry class registers tags in the database and assigns
+ * them to people. It also deregisters tags from the database.
  */
 class Registry {
 	private $dbh;
