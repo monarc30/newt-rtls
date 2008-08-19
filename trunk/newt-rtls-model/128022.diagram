@@ -1,0 +1,71 @@
+format 48
+
+classcanvas 128022 class_ref 128022 // PeopleRegistry
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 67 586 2000
+  end
+classcanvas 128095 class_ref 129247 // DBCapable
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 425 369 2000
+  end
+classcanvas 128150 class_ref 128150 // Person
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 389 538 2000
+  end
+classcanvas 128278 class_ref 128278 // Tag
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 663 590 2000
+  end
+classcanvas 128320 class_ref 129216 // EventsRegistry
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 538 19 2000
+  end
+classcanvas 128534 class_ref 128406 // Event
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 660 433 2000
+  end
+classcanvas 128662 class_ref 128534 // DataConnector
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 53 86 2000
+  end
+classcanvas 128704 class_ref 129344 // Rule
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 612 225 2000
+  end
+classcanvas 128790 class_ref 128662 // TagsRegistry
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 24 256 2000
+  end
+classcanvas 128832 class_ref 129472 // RulesRegistry
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
+  xyz 594 119 2000
+  end
+relationcanvas 128223 relation_ref 129247 // <generalisation>
+  from ref 128150 z 1999 to ref 128095
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+relationcanvas 128406 relation_ref 128022 // <unidirectional association>
+  from ref 128150 z 1999 to ref 128278
+  role_a_pos 575 603 3000 no_role_b
+  multiplicity_a_pos 647 632 3000 no_multiplicity_b
+relationcanvas 128448 relation_ref 129216 // <unidirectional association>
+  from ref 128320 z 1999 to ref 128662
+  role_a_pos 455 74 3000 no_role_b
+  multiplicity_a_pos 455 103 3000 no_multiplicity_b
+relationcanvas 128576 relation_ref 129344 // <unidirectional association>
+  from ref 128534 z 1999 to ref 128278
+  role_a_pos 719 568 3000 no_role_b
+  multiplicity_a_pos 692 568 3000 no_multiplicity_b
+relationcanvas 128918 relation_ref 128150 // <unidirectional association>
+  from ref 128790 z 1999 to ref 128662
+  role_a_pos 259 212 3000 no_role_b
+  multiplicity_a_pos 232 212 3000 no_multiplicity_b
+relationcanvas 128960 relation_ref 129472 // <unidirectional association>
+  from ref 128832 z 1999 to ref 128662
+  role_a_pos 455 124 3000 no_role_b
+  multiplicity_a_pos 455 153 3000 no_multiplicity_b
+relationcanvas 129088 relation_ref 129600 // <generalisation>
+  from ref 128704 z 1999 to ref 128095
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
