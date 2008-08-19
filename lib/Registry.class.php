@@ -42,11 +42,12 @@ class Registry {
 	 * Assigns a registered tag to a person.
 	 * @param int $person
 	 * @param string $tagid
+	 * @param string $mac
 	 * @return boolean
 	 * @throws BadDatabaseQueryException
 	 */
-	public function assignTag($person, $tagid, $mac) {
-		$strSQL = "INSERT INTO tag (tagid, mac, person_id) VALUES ('$tagid', '$mac', $person)";
+	public function assignTag($personId, $tagId, $mac) {
+		$strSQL = "INSERT INTO tag (tagid, mac, person_id) VALUES ('$tagId', '$mac', $personId)";
 		if(!$result = $this->dbh->query($strSQL)) {
 			throw new BadDatabaseQueryException("Bad database query!");
 		} else {
