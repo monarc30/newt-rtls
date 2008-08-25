@@ -1,16 +1,15 @@
 <?php
 require_once "php2wsdl/WSDLCreator.php";
 
-$test = new WSDLCreator("NEWT-RTLS", "http://rtls.gg/ws");
+$test = new WSDLCreator("NEWT-RTLS", "http://rtls.gg/ws/");
 
-$test->addFile("lib/Tracker.class.php");
-$test->addFile("lib/DataConnector.class.php");
-$test->addFile("lib/Event.class.php");
+$test->addFile("lib/SOAPServer.class.php");
 $test->addFile("lib/Person.class.php");
-$test->addFile("lib/Registry.class.php");
-$test->addFile("lib/Tag.class.php");
 
-$test->setClassesGeneralURL("http://rtls.gg");
+$test->setClassesGeneralURL("http://rtls.gg/ws/");
+$test->addURLToClass("SOAPServer", "http://rtls.gg/ws/");
+$test->addURLToClass("Person", "http://rtls.gg/ws/");
+$test->addURLToTypens("Person[]", "http://rtls.gg/ws/");
 
 $test->createWSDL();
 

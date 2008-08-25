@@ -1,7 +1,7 @@
 format 48
 "newt-rtls" // newt-rtls
-  revision 5
-  modified_by 64 "labadmin"
+  revision 6
+  modified_by 25 "labadmin"
   // class settings
   //class diagram settings
   draw_all_relations default hide_attributes default hide_operations default show_members_full_definition yes show_members_visibility yes show_members_stereotype default show_parameter_dir no show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default
@@ -585,7 +585,6 @@ ${members}}
 	    classrelation_ref 129472 // connector (<unidirectional association>)
 	  b parent class_ref 128534 // DataConnector
       end
-
     end
   end
 end
