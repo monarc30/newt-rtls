@@ -34,14 +34,10 @@ class Registry {
 		} 
 	}
 	
-	public function addPerson() {
-		
-	}
-	
 	/**
 	 * Assigns a registered tag to a person.
-	 * @param int $person
-	 * @param string $tagid
+	 * @param int $personId
+	 * @param string $tagId
 	 * @param string $mac
 	 * @return boolean
 	 * @throws BadDatabaseQueryException
@@ -57,7 +53,7 @@ class Registry {
 	
 	/**
 	 * Method to unassign a tag assigned to a person.
-	 * @param int $assignedId This is is stored in the database
+	 * @param int $assignedId This is stored in the database
 	 * when tag is assigned to a person.
 	 * @return boolean
 	 * @throws BadDatabaseQueryException
