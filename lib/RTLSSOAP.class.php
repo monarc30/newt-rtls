@@ -21,13 +21,39 @@ class RTLSSOAP {
 		}
 	}
 	
+	private function getTracker() {
+		return new Tracker("192.168.1.10", "8550", "rtls_user", "welcome");
+	}
+	
 	/**
-	 * This method returns a list of people registered in the system. 
+	 * This method returns a list of people registered in the system.
 	 * @return Person[] Array of Person objects
 	 */
 	public function getPeople() {
 		if($registry = $this->getRegistry()) {
 			return $registry->listPeople();
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * This method returns a list of tags registered in the system. 
+	 * @return Tag[] Array of Tag objects
+	 */
+	public function getTags() {
+		if($tracker = $this->getTracker()) {
+			return $tracker->listTags();
+		}
+	}
+	
+	/**
+	 * This method returns the latest events registered in the system.
+	 * @return Event[] Array of Event objects
+	 */
+	public function getEvents() {
+		if($tracker = $this->getTracker()) {
+			return $tracker->getEvents();
 		}
 	}
 }
