@@ -56,6 +56,14 @@ class RTLSSOAP {
 			return $tracker->getEvents();
 		}
 	}
+	
+	public function getAssignedTags($personId) {
+		if($registry = $this->getRegistry()) {
+			return $registry->listAssignedTags($personId);
+		}
+		
+		return false;
+	}
 }
 
 ?>
