@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Ajax Client</title>
+<script language="javascript" src="/lib/jquery.js"></script>
+<script language="javascript">
+
+$(function() {
+	$.get("/test/ws_get_people.php", function(data) {
+		$("#people").append('<option value="">select...</option>');
+		$(data).find("person").each(function() {
+			$("#people").append('<option value="'+$(this).find("id").text()+'">'+$(this).find("firstName").text()+' '+$(this).find("lastName").text()+'</option>');
+		});
+	});
+});
+
+function getAssignedTags() {
+		$.get("/test/ws_get_assigned_tags.php", { personId: $("#people").val() }, function(data) {
+			$("#response").empty();
+			$("#response").append('<tr><td>Tag ID</td><td>MAC</td><td>Name</td></tr>');
+			$(data).find("tag").each(function() {
+				$("#response").append('<tr><td>'+$(this).find("tagid").text()+'</td><td>'+$(this).find("mac").text()+'</td><td>'+$(this).find("name").text()+'</td></tr>');
+			});
+		});
+};
+
+</script>
+</head>
+<body>
+
+<select id="people" onChange="getAssignedTags()"></select>
+
+<table border="1" id="response"></table>
+
+</body>
+</html>
